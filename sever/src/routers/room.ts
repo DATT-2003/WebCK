@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { register } from "../controllers/user";
+import { create } from "../controllers/room";
 
 //API
 const router = Router();
-router.post('/register', register);
+router.post('/create', create);
 export default router;
