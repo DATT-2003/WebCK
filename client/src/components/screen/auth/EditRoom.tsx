@@ -1,4 +1,4 @@
 const EditRoom = () => {
-    return ("Edit")
+    return <div>Edit</div>
 }
 export default EditRoom

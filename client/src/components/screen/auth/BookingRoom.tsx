@@ -1,4 +1,4 @@
 const BookRoom = () => {
-    return ("Booking")
+    return <div>Booking</div>
 }
 export default BookRoom
