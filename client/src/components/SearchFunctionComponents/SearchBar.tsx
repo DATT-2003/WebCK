@@ -22,7 +22,7 @@ const SearchBar = () => {
         value={searchTerm} // Liên kết input với state
         onChange={handleChange} // Cập nhật state khi người dùng nhập
       />
-      <button onClick={handleSearch}>Tìm Kiếm</button>
+      <button onClick={handleSearch}>Tìm Kiếm phong</button>
       <div>
         <h1>Kết quả cho: {newsearchresult}</h1>{" "}
         {/* Hiển thị kết quả tìm kiếm */}
