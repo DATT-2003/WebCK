@@ -16,7 +16,7 @@ const EditRoom = () => {
             try {
                 const response = await handleAPI(`/auth/room/${id}`, null, 'get');
                 if (response.data.data) {
-                    form.setFieldsValue(response.data.data); // Đặt dữ liệu vào form
+                    form.setFieldsValue(response.data.data);
                 } else {
                     message.error('Room not found!');
                 }

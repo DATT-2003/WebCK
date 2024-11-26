@@ -11,9 +11,8 @@ const RoomList = () => {
             setLoading(true);
             try {
                 const response = await handleAPI('/auth/list', null, 'get');
-                // Kiểm tra dữ liệu có phải là mảng không trước khi lưu vào state
                 if (Array.isArray(response.data.data)) {
-                    setRooms(response.data.data);  // Cập nhật danh sách phòng
+                    setRooms(response.data.data);
                 } else {
                     console.log(response.data)
                     message.error('Dữ liệu không hợp lệ!');
@@ -27,7 +26,6 @@ const RoomList = () => {
         fetchRooms();
     }, []);
 
-    // Cấu hình các cột trong bảng
     const columns = [
         {
             title: 'Room Name',
@@ -67,7 +65,7 @@ const RoomList = () => {
             title: 'AddBill',
             key: 'addbill',
             render: (text: any, record: any) => (
-                <Button onClick={() => handleEdit(record)} type="primary">
+                <Button onClick={() => handleAddbill(record)} type="primary">
                     Add Bill
                 </Button>
             ),
@@ -75,7 +73,11 @@ const RoomList = () => {
     ];
 
     const handleEdit = (record: any) => {
-        // Điều hướng đến trang chỉnh sửa với ID phòng
+
+        window.location.href = `/edit/${record._id}`;
+    };
+    const handleAddbill = (record: any) => {
+
         window.location.href = `/edit/${record._id}`;
     };
 

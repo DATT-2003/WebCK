@@ -7,10 +7,6 @@ const create = async (req: any, res: any) => {
     const body = req.body;
     const { name } = body
     try {
-        // const user = await UserModel.findOne({ name })
-        // if (user) {
-        //     throw new Error(`Tài khoản đã tồn tại`)
-        // }
         const newRoom = new UserModel(body)
         await newRoom.save()
 
@@ -31,7 +27,7 @@ const getAllRooms = async (req: any, res: any) => {
 
         res.status(200).json({
             message: 'Room list fetched successfully!',
-            data: rooms, // Trả về dữ liệu phòng
+            data: rooms,
         });
     } catch (error: any) {
         res.status(404).json({
@@ -40,9 +36,9 @@ const getAllRooms = async (req: any, res: any) => {
     }
 };
 const getRoomById = async (req: any, res: any) => {
-    const { id } = req.params; // Lấy ID từ URL
+    const { id } = req.params;
     try {
-        const room = await UserModel.findById(id); // Tìm phòng theo ID
+        const room = await UserModel.findById(id);
         if (!room) {
             return res.status(404).json({ message: "Room not found!" });
         }
