@@ -1,4 +1,4 @@
-import UserModel from "../models/RoomModel";
+import RoomModel from "../models/RoomModel";
 import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 dotenv.config();
@@ -7,7 +7,7 @@ const create = async (req: any, res: any) => {
     const body = req.body;
     const { name } = body
     try {
-        const newRoom = new UserModel(body)
+        const newRoom = new RoomModel(body)
         await newRoom.save()
 
         res.status(200).json({
@@ -23,7 +23,7 @@ const create = async (req: any, res: any) => {
 const getAllRooms = async (req: any, res: any) => {
     try {
         // Lấy tất cả các phòng từ MongoDB
-        const rooms = await UserModel.find();
+        const rooms = await RoomModel.find();
 
         res.status(200).json({
             message: 'Room list fetched successfully!',
@@ -38,7 +38,7 @@ const getAllRooms = async (req: any, res: any) => {
 const getRoomById = async (req: any, res: any) => {
     const { id } = req.params;
     try {
-        const room = await UserModel.findById(id);
+        const room = await RoomModel.findById(id);
         if (!room) {
             return res.status(404).json({ message: "Room not found!" });
         }
@@ -51,7 +51,7 @@ const updateRoom = async (req: any, res: any) => {
     const { id } = req.params;
     const updates = req.body; // Lấy dữ liệu từ client
     try {
-        const updatedRoom = await UserModel.findByIdAndUpdate(id, updates, { new: true }); // Cập nhật và trả về dữ liệu mới
+        const updatedRoom = await RoomModel.findByIdAndUpdate(id, updates, { new: true }); // Cập nhật và trả về dữ liệu mới
         if (!updatedRoom) {
             return res.status(404).json({ message: 'Room not found!' });
         }
@@ -63,7 +63,7 @@ const updateRoom = async (req: any, res: any) => {
 const deleteRoom = async (req: any, res: any) => {
     const { id } = req.params;
     try {
-        const room = await UserModel.findByIdAndDelete(id);
+        const room = await RoomModel.findByIdAndDelete(id);
         if (!room) {
             throw new Error('Room not found!');
         }

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const UserScheme = new Schema({
+const RoomScheme = new Schema({
     name: {
         type: String,
         required: true
@@ -31,5 +31,5 @@ const UserScheme = new Schema({
     }
 
 });
-const UserModel = mongoose.model('user', UserScheme)
-export default UserModel;
+const RoomModel = mongoose.model('room', RoomScheme)
+export default RoomModel;
