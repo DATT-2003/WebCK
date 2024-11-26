@@ -1,91 +1,123 @@
-import { Button, Card, Form, Input, message, Space, Typography } from 'antd'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import handleAPI from '../../../apis/handleAPI'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Spin, message, Popconfirm } from 'antd';
+import handleAPI from '../../../apis/handleAPI';
 
-const { Title, Paragraph, Text } = Typography
 const EditRoom = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [isRemember, setIsRemember] = useState(false);
+    const { id } = useParams(); // Lấy ID từ URL
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [form] = Form.useForm();
 
-    const [from] = Form.useForm()
-    const handleCreate = async (values: { name: string }) => {
+    // Fetch thông tin phòng khi trang được tải
+    useEffect(() => {
+        const fetchRoomDetails = async () => {
+            setLoading(true);
+            try {
+                const response = await handleAPI(`/auth/room/${id}`, null, 'get');
+                if (response.data.data) {
+                    form.setFieldsValue(response.data.data); // Đặt dữ liệu vào form
+                } else {
+                    message.error('Room not found!');
+                }
+            } catch (error: any) {
+                message.error('Failed to fetch room details');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        const api = `/auth/create`
-        setIsLoading(true)
+        if (id) {
+            fetchRoomDetails();
+        }
+    }, [id, form]);
+
+    // Lưu lại thông tin phòng
+    const handleSave = async (values: any) => {
+        setLoading(true);
         try {
-            const res = await handleAPI(api, values, 'post')
-            console.log(res)
+            const response = await handleAPI(`/auth/update/${id}`, values, 'put');
+            if (response.status === 200) {
+                message.success('Room updated successfully!');
+                navigate('/'); // Quay lại danh sách phòng
+            }
         } catch (error: any) {
-            message.error(error.message)
-            console.log(error)
+            message.error('Failed to update room!');
         } finally {
-            setIsLoading(false)
+            setLoading(false);
         }
     };
-    return (
-        <>
-            <Card style={{ width: '30%' }}>
-                <Form layout='vertical' form={from} onFinish={handleCreate} disabled={isLoading} size='large'>
-                    <Form.Item name={'name'} label='NameRoom'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your Name!!'
-                            }
-                        ]}>
-                        <Input placeholder='Enter your Name!' allowClear />
-                    </Form.Item>
-                    <Form.Item name={'description'} label='description'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your description!!'
-                            }
-                        ]}>
-                        <Input placeholder='Enter your Name!' allowClear />
-                    </Form.Item>
-                    <Form.Item name={'address'} label='Address'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your Address!!'
-                            }
-                        ]}>
-                        <Input placeholder='Enter your Email!' allowClear />
-                    </Form.Item>
-                    <Form.Item name={'price'} label='Price'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your Price!!'
-                            }
-                        ]}>
-                        <Input placeholder='Enter your Price!' allowClear />
-                    </Form.Item>
-                    <Form.Item name={'status'} label='Status'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your Status!!'
-                            },
-                        ]}>
-                        <Input placeholder='Create a password' />
-                    </Form.Item>
-                </Form>
-                <div className="mt-5 mb-3">
-                    <Button loading={isLoading} onClick={() => from.submit()}
-                        type='primary'
-                        style={{
-                            width: '100%',
-                        }}
-                        size='large'>
-                        Create
-                    </Button>
-                </div>
-            </Card >
-        </ >
-    )
-}
 
-export default EditRoom
+    // Xóa phòng
+    const handleDelete = async () => {
+        setLoading(true);
+        try {
+            const response = await handleAPI(`/auth/delete/${id}`, null, 'delete');
+            if (response.status === 200) {
+                message.success('Room deleted successfully!');
+                navigate('/'); // Quay lại danh sách phòng
+            }
+        } catch (error: any) {
+            message.error('Failed to delete room!');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return <Spin size="large" style={{ display: 'block', margin: '50px auto' }} />;
+    }
+
+    return (
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <h2>Edit Room</h2>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleSave}
+                initialValues={{ name: '', description: '', address: '', price: '', status: '' }}
+            >
+                <Form.Item label="Room Name" name="name" rules={[{ required: true, message: 'Please enter the room name!' }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Description" name="description" rules={[{ required: true, message: 'Please enter the description!' }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Address" name="address" rules={[{ required: true, message: 'Please enter the address!' }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Price" name="price" rules={[{ required: true, message: 'Please enter the price!' }]}>
+                    <Input type="number" />
+                </Form.Item>
+
+                <Form.Item label="Status" name="status" rules={[{ required: true, message: 'Please enter the status!' }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>
+                        Save Changes
+                    </Button>
+                    <Button onClick={() => navigate('/')}>Back to list</Button>
+                </Form.Item>
+            </Form>
+
+            {/* Nút Delete */}
+            <Popconfirm
+                title="Xóa phòng này ?"
+                onConfirm={handleDelete}
+                okText="Yes"
+                cancelText="No"
+            >
+                <Button type="primary" danger style={{ marginTop: '20px' }}>
+                    Delete Room
+                </Button>
+            </Popconfirm>
+        </div>
+    );
+};
+
+export default EditRoom;
