@@ -9,7 +9,7 @@ const EditRoom = () => {
     const [isRemember, setIsRemember] = useState(false);
 
     const [from] = Form.useForm()
-    const handleSignUp = async (values: { name: string }) => {
+    const handleCreate = async (values: { name: string }) => {
 
         const api = `/auth/create`
         setIsLoading(true)
@@ -26,7 +26,7 @@ const EditRoom = () => {
     return (
         <>
             <Card style={{ width: '30%' }}>
-                <Form layout='vertical' form={from} onFinish={handleSignUp} disabled={isLoading} size='large'>
+                <Form layout='vertical' form={from} onFinish={handleCreate} disabled={isLoading} size='large'>
                     <Form.Item name={'name'} label='NameRoom'
                         rules={[
                             {
@@ -80,14 +80,8 @@ const EditRoom = () => {
                             width: '100%',
                         }}
                         size='large'>
-                        Sign Up
+                        Create
                     </Button>
-                </div>
-                <div className="mt-3 text-center">
-                    <Space>
-                        <Text type='secondary'>Already have an account? </Text>
-                        <Link to={'/login'}>Login</Link>
-                    </Space>
                 </div>
             </Card >
         </ >

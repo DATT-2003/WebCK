@@ -11,12 +11,12 @@ const create = async (req: any, res: any) => {
         // if (user) {
         //     throw new Error(`Tài khoản đã tồn tại`)
         // }
-        const newUser = new UserModel(body)
-        await newUser.save()
+        const newRoom = new UserModel(body)
+        await newRoom.save()
 
         res.status(200).json({
             message: 'Create',
-            data: newUser,
+            data: newRoom,
         })
     } catch (error: any) {
         res.status(404).json({
