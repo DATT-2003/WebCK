@@ -24,4 +24,19 @@ const create = async (req: any, res: any) => {
         })
     }
 };
-export { create }
+const getAllRooms = async (req: any, res: any) => {
+    try {
+        // Lấy tất cả các phòng từ MongoDB
+        const rooms = await UserModel.find();
+
+        res.status(200).json({
+            message: 'Room list fetched successfully!',
+            data: rooms, // Trả về dữ liệu phòng
+        });
+    } catch (error: any) {
+        res.status(404).json({
+            message: error.message
+        });
+    }
+};
+export { create, getAllRooms }

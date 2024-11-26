@@ -1,5 +1,5 @@
 import Search from "./auth/SearchRoom";
 import EditRoom from "./auth/EditRoom";
 import Booking from "./auth/BookingRoom";
-
-export { Search, EditRoom, Booking }
+import RoomList from "./auth/RoomList ";
+export { Search, EditRoom, Booking, RoomList }
