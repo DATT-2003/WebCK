@@ -6,7 +6,7 @@ const AuthRouter = () => {
         <div className="col content-center">
             <BrowserRouter>
                 <Routes>
-                    <Route path='/show' element={<RoomList />} />
+                    <Route path='/' element={<RoomList />} />
                     <Route path='/create' element={<EditRoom />} />
                     <Route path='/booking' element={<Booking />} />
                     <Route path='/search' element={<Search />} />
