@@ -1,6 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
-const baseURL = `http://192.168.2.77:3001`;
+const baseURL = `${window.location.protocol}//${window.location.hostname}:3001`;
 const axiosClient = axios.create({
     baseURL,
     paramsSerializer: (params) => queryString.stringify(params)
