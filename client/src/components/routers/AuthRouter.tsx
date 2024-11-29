@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Search, CreateRoom, Booking, RoomList, EditRoom } from '../screen'
+import { Search, CreateRoom, Booking, RoomList, EditRoom, CreateBill } from '../screen'
 const AuthRouter = () => {
     return (
         <div className="col content-center">
@@ -11,6 +11,7 @@ const AuthRouter = () => {
                     <Route path='/create' element={<CreateRoom />} />
                     <Route path='/booking' element={<Booking />} />
                     <Route path='/search' element={<Search />} />
+                    <Route path='/create-bill/:id' element={<CreateBill />} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -3,6 +3,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose';
 import userRouter from './src/routers/room'
+import billRouter from './src/routers/bill';
 import cors from 'cors';
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json())
 app.use(cors());
 app.use('/auth', userRouter);
+app.use('/bill', billRouter);
 
 const connectDB = async () => {
     try {

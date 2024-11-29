@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, message } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
 import handleAPI from '../../../apis/handleAPI';
 
 const RoomList = () => {
     const [rooms, setRooms] = useState<any[]>([]);  // State lưu danh sách phòng
     const [loading, setLoading] = useState(false);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchRooms = async () => {
             setLoading(true);
@@ -78,7 +79,12 @@ const RoomList = () => {
     };
     const handleAddbill = (record: any) => {
 
-        window.location.href = `/edit/${record._id}`;
+        navigate(`/create-bill/${record._id}`, {
+            state: {
+                roomName: record.name,
+                price: record.price,
+            },
+        });
     };
 
     return (
